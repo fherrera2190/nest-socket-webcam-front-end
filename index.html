@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body data-bs-theme="dark">
+    <div id="app" class="container">
+      <h1>Acceder a la Cámara</h1>
+
+      <div class="display-cover">
+        <div class="video-options my-3">
+          <select name="" id="" class="custom-select">
+            <option value="">Select camera</option>
+          </select>
+        </div>
+        <video autoplay class="w-100 border border-2"></video>
+        <!-- <canvas class="d-none"></canvas> -->
+
+        <div class="controls w-100 d-flex justify-content-end gap-3">
+          <button class="btn btn-primary play" title="Play">
+            <i class="bi bi-play-circle"></i>
+          </button>
+          <button class="btn btn-warning pause" title="Pause">
+            <i class="bi bi-pause-circle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+    ></script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
