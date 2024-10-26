@@ -2,6 +2,15 @@ import { Constraints } from "./interfaces/video-constraints.interfaces";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "socket.io-client";
+// import { connectToServer } from "./socket-clients";
+import { Manager, Socket } from "socket.io-client";
+
+const manager: Manager = new Manager(
+  "http://localhost:3000/socket.io/socket.io.js"
+);
+
+const socket = manager.socket("/webcam-ws");
 
 const controls = document.querySelector(".controls") as HTMLElement;
 const cameraOptions = document.querySelector(
@@ -66,6 +75,7 @@ play.onclick = () => {
 
 const handleStream = (stream: MediaStream) => {
   video.srcObject = stream;
+  socket.emit("videoStream", stream);
   streamStarted = true;
 };
 
@@ -85,17 +95,28 @@ const pauseStream = () => {
   video.pause();
   if (stream) {
     const tracks = stream.getTracks();
-    tracks.forEach(track => track.stop());
+    tracks.forEach((track) => track.stop());
     streamStarted = false;
   }
 };
 pause.onclick = pauseStream;
 
+const addListeners = (socket: Socket) => {
+  const serverStatusLabel = document.querySelector(
+    "#server-status"
+  ) as HTMLSpanElement;
+
+  socket.on("connect", () => {
+    serverStatusLabel.innerHTML = "connected";
+  });
+  socket.on("disconnect", () => {
+    serverStatusLabel.innerHTML = "disconnected";
+  });
+
+  socket.on("clients-updated", (clients: string[]) => {
+    console.log(clients);
+  });
+};
+
 getCameraSelection();
-
-// const connectToServer = () => {
-//   const manager = new Manager("http://localhost:3000/socket.io/socket.io.js");
-
-//   const socket = manager.socket("/webcam-ws");
-// };
-// connectToServer();
+addListeners(socket);

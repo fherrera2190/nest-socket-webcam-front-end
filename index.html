@@ -8,24 +8,34 @@
   </head>
   <body data-bs-theme="dark">
     <div id="app" class="container">
-      <h1>Acceder a la Cámara</h1>
+      <div class="d-flex justify-content-evenly align-items-center">
+        <h1>Acceder a la Cámara</h1>
+        <p>Server status: <span id="server-status"></span></p>
+      </div>
 
-      <div class="display-cover">
-        <div class="video-options my-3">
-          <select name="" id="" class="custom-select">
-            <option value="">Select camera</option>
-          </select>
+      <div class="w-100 d-flex flex-column my-4">
+        <div class="w-100 d-flex justify-content-center">
+          <video
+            class="border border-2"
+            autoplay
+            width="640"
+            height="480"
+          ></video>
         </div>
-        <video autoplay class="w-100 border border-2"></video>
-        <!-- <canvas class="d-none"></canvas> -->
-
-        <div class="controls w-100 d-flex justify-content-end gap-3">
-          <button class="btn btn-primary play" title="Play">
-            <i class="bi bi-play-circle"></i>
-          </button>
-          <button class="btn btn-warning pause" title="Pause">
-            <i class="bi bi-pause-circle"></i>
-          </button>
+        <div class="d-flex align-items-center justify-content-evenly">
+          <div class="video-options my-3">
+            <select name="" id="" class="custom-select">
+              <option value="">Select camera</option>
+            </select>
+          </div>
+          <div class="controls d-flex justify-content-end gap-3">
+            <button class="btn btn-primary play" title="Play">
+              <i class="bi bi-play-circle"></i>
+            </button>
+            <button class="btn btn-warning pause" title="Pause">
+              <i class="bi bi-pause-circle"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
