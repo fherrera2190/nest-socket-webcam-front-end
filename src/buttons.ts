@@ -30,7 +30,7 @@ btnLocalPlay.addEventListener("click", async () => {
   interval = setInterval(() => {
     ctx!.drawImage(video, 0, 0, 640, 480);
     sendStreamData(canvas.toDataURL());
-  }, 500);
+  }, 250);
 
 });
 
@@ -39,8 +39,8 @@ btnLocalPause.addEventListener("click", () => {
   if (startCamera) startCamera = false;
 
   clearInterval(interval);
+  sendStreamData("stop");
   const mediaStream = video.srcObject as MediaStream;
-
   if (mediaStream) {
     const tracks = mediaStream.getTracks();
     tracks.forEach((track) => track.stop());

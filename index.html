@@ -10,7 +10,7 @@
     <div id="app" class="container">
       <div class="d-flex justify-content-evenly align-items-center">
         <h1>Acceder a la Cámara</h1>
-        <p>Server status: <span id="server-status"></span></p>
+        <p>Server status: <span id="server-status">disconnected</span></p>
       </div>
 
       <div class="w-100 d-flex flex-column my-4">
@@ -43,14 +43,14 @@
         </div>
       </div>
 
-      <div class="w-100 d-flex justify-content-center">
-        <img
+      <div class="container d-flex justify-content-center flex-wrap gap-4" id="container-remote">
+        <!-- <img
           id="video-remote"
           class="border border-2"
           autoplay
           width="320"
           height="240"
-        ></img>
+        ></img> -->
       </div>
     </div>
     <script
