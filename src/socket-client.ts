@@ -6,7 +6,6 @@ let socket: Socket;
 const imgElement = document.getElementById("video-remote") as HTMLImageElement;
 document.addEventListener("DOMContentLoaded", () => {
   manager = new Manager(envConfig.API_URL);
-  console.log(envConfig.API_URL);
   socket = manager.socket("/webcam-ws");
   socket.on("connect", () => {
     console.log("connectado");

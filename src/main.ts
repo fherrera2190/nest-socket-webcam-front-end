@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./socket-client";
 import "./buttons";
+
 function updateCameraList(cameras: MediaDeviceInfo[] = []) {
   const listElement = document.querySelector(
     "select#select-devices"
@@ -28,13 +29,15 @@ async function getConnectedDevices(type: string): Promise<MediaDeviceInfo[]> {
   return devicesVideoInpunt;
 }
 // Get the initial set of cameras connected
-const videoCameras = await getConnectedDevices("videoinput");
-updateCameraList(videoCameras);
+
+getConnectedDevices("videoinput")
+  .then((cameras) => {
+    updateCameraList(cameras);
+  })
+  .catch(console.error);
 
 //Listen for changes to media devices and update the list accordingly
 navigator.mediaDevices.addEventListener("devicechange", async () => {
   const newCameraList: MediaDeviceInfo[] = await getConnectedDevices("video");
   updateCameraList(newCameraList);
 });
-
-
