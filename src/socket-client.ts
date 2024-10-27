@@ -4,7 +4,6 @@ import { addClient, removeClient } from "./clients-control";
 
 let manager: Manager;
 let socket: Socket;
-const imgElement = document.querySelector("#video-remote") as HTMLImageElement;
 document.addEventListener("DOMContentLoaded", () => {
   manager = new Manager(envConfig.API_URL);
   socket = manager.socket("/webcam-ws");
