@@ -15,28 +15,42 @@
 
       <div class="w-100 d-flex flex-column my-4">
         <div class="w-100 d-flex justify-content-center">
-          <video
-            class="border border-2"
-            autoplay
-            width="640"
-            height="480"
-          ></video>
+          <video id="video-local" class="border border-2" width="640" height="480"></video>
+          <canvas id="canvas-local"  width="640" height="480"></canvas>
         </div>
         <div class="d-flex align-items-center justify-content-evenly">
           <div class="video-options my-3">
-            <select name="" id="" class="custom-select">
+            <select name="" id="select-devices" class="custom-select">
               <option value="">Select camera</option>
             </select>
           </div>
           <div class="controls d-flex justify-content-end gap-3">
-            <button class="btn btn-primary play" title="Play">
+            <button
+              id="btn-play-local"
+              class="btn btn-primary play"
+              title="Play"
+            >
               <i class="bi bi-play-circle"></i>
             </button>
-            <button class="btn btn-warning pause" title="Pause">
+            <button
+              id="btn-pause-local"
+              class="btn btn-warning pause"
+              title="Pause"
+            >
               <i class="bi bi-pause-circle"></i>
             </button>
           </div>
         </div>
+      </div>
+
+      <div class="w-100 d-flex justify-content-center">
+        <img
+          id="video-remote"
+          class="border border-2"
+          autoplay
+          width="320"
+          height="240"
+        ></img>
       </div>
     </div>
     <script

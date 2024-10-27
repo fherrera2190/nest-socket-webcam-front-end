@@ -1,122 +1,40 @@
-import { Constraints } from "./interfaces/video-constraints.interfaces";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "socket.io-client";
-// import { connectToServer } from "./socket-clients";
-import { Manager, Socket } from "socket.io-client";
+import "./socket-client";
+import "./buttons";
+function updateCameraList(cameras: MediaDeviceInfo[] = []) {
+  const listElement = document.querySelector(
+    "select#select-devices"
+  ) as HTMLSelectElement;
+  listElement.innerHTML = "";
 
-const manager: Manager = new Manager(
-  "http://localhost:3000/socket.io/socket.io.js"
-);
+  cameras
+    .map((camera: MediaDeviceInfo) => {
+      const cameraOption = document.createElement("option");
+      cameraOption.label = camera.label;
+      cameraOption.value = camera.deviceId;
+      return cameraOption;
+    })
+    .forEach((cameraOption: HTMLOptionElement) =>
+      listElement.add(cameraOption)
+    );
+}
 
-const socket = manager.socket("/webcam-ws");
-
-const controls = document.querySelector(".controls") as HTMLElement;
-const cameraOptions = document.querySelector(
-  ".video-options>select"
-) as HTMLSelectElement;
-const video = document.querySelector("video") as HTMLVideoElement;
-let streamStarted = false;
-const buttons = [...controls.querySelectorAll("button")] as HTMLButtonElement[];
-const [
-  play,
-  pause, //screenshot
-] = buttons;
-
-let stream: MediaStream;
-const constraints: Constraints = {
-  video: {
-    width: {
-      min: 1280,
-      ideal: 1920,
-      max: 2560,
-    },
-    height: {
-      min: 720,
-      ideal: 1080,
-      max: 1440,
-    },
-  },
-};
-
-const getCameraSelection = async () => {
+// Fetch an array of devices of a certain type
+async function getConnectedDevices(type: string): Promise<MediaDeviceInfo[]> {
   const devices = await navigator.mediaDevices.enumerateDevices();
-  const videoDevices = devices.filter((device) => device.kind === "videoinput");
-  const options = videoDevices.map((videoDevice) => {
-    return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
-  });
-  cameraOptions.innerHTML = options.join("");
-};
+  const devicesVideoInpunt = devices.filter((device) => device.kind === type);
+  return devicesVideoInpunt;
+}
+// Get the initial set of cameras connected
+const videoCameras = await getConnectedDevices("videoinput");
+updateCameraList(videoCameras);
 
-const startStream = async (constraints: Constraints) => {
-  stream = await navigator.mediaDevices.getUserMedia(constraints);
-  handleStream(stream);
-};
+//Listen for changes to media devices and update the list accordingly
+navigator.mediaDevices.addEventListener("devicechange", async () => {
+  const newCameraList: MediaDeviceInfo[] = await getConnectedDevices("video");
+  updateCameraList(newCameraList);
+});
 
-play.onclick = () => {
-  console.log(streamStarted);
 
-  if (streamStarted) {
-    video.play();
-    return;
-  }
-
-  if ("mediaDevices" in navigator) {
-    const updatedConstraints = {
-      ...constraints,
-      deviceId: {
-        exact: cameraOptions.value,
-      },
-    };
-    startStream(updatedConstraints);
-  }
-};
-
-const handleStream = (stream: MediaStream) => {
-  video.srcObject = stream;
-  socket.emit("videoStream", stream);
-  streamStarted = true;
-};
-
-cameraOptions.onchange = () => {
-  const updatedConstraints: Constraints = {
-    ...constraints,
-    deviceId: {
-      exact: cameraOptions.value,
-    },
-  };
-  startStream(updatedConstraints);
-};
-
-// PLAY/Pause
-
-const pauseStream = () => {
-  video.pause();
-  if (stream) {
-    const tracks = stream.getTracks();
-    tracks.forEach((track) => track.stop());
-    streamStarted = false;
-  }
-};
-pause.onclick = pauseStream;
-
-const addListeners = (socket: Socket) => {
-  const serverStatusLabel = document.querySelector(
-    "#server-status"
-  ) as HTMLSpanElement;
-
-  socket.on("connect", () => {
-    serverStatusLabel.innerHTML = "connected";
-  });
-  socket.on("disconnect", () => {
-    serverStatusLabel.innerHTML = "disconnected";
-  });
-
-  socket.on("clients-updated", (clients: string[]) => {
-    console.log(clients);
-  });
-};
-
-getCameraSelection();
-addListeners(socket);
