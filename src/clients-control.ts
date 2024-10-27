@@ -7,7 +7,7 @@ export function addClient(id: string): void {
   if (!document.querySelector(`#${id}`)) {
     const img = document.createElement("img");
     img.id = id;
-    //img.src = src;
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNYRu8LA0MWpRLTDJCQEq3talVZsczYlQjCQ&s";
     img.className = "border border-2";
     img.width = 320;
     img.height = 240;

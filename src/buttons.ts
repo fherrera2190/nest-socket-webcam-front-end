@@ -39,7 +39,7 @@ btnLocalPause.addEventListener("click", () => {
   if (startCamera) startCamera = false;
 
   clearInterval(interval);
-  sendStreamData("stop");
+  sendStreamData("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNYRu8LA0MWpRLTDJCQEq3talVZsczYlQjCQ&s");
   const mediaStream = video.srcObject as MediaStream;
   if (mediaStream) {
     const tracks = mediaStream.getTracks();

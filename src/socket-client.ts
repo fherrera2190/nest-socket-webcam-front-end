@@ -1,6 +1,6 @@
 import { Manager, Socket } from "socket.io-client";
 import { envConfig } from "./config/app.config";
-import { addClient } from "./clients-control";
+import { addClient, removeClient } from "./clients-control";
 
 let manager: Manager;
 let socket: Socket;
@@ -32,10 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   socket.on("list-clients", (clients: string[]) => {
-    console.log(clients);
     clients.forEach((client) => {
       addClient(client);
     });
+  });
+
+  socket.on("client-offline", (clientId: string) => {
+    removeClient(clientId);
   });
 });
 
