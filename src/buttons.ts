@@ -1,49 +1,56 @@
+import {
+  btnConnectClient,
+  btnLocalPause,
+  btnLocalPlay,
+  video,
+  videoRemote,
+} from "./constants";
 import { Constraints } from "./interfaces/video-constraints.interfaces";
-import { sendStreamData } from "./socket-client";
+import { peer, uuid } from "./peer-clients-control";
 
 let startCamera: boolean = false;
-let interval: number;
 
-const canvas = document.querySelector(
-  "canvas#canvas-local"
-) as HTMLCanvasElement;
-const ctx = canvas.getContext("2d");
-canvas.style.display = "none";
-const btnLocalPlay = document.querySelector(
-  "#btn-play-local"
-) as HTMLButtonElement;
-const btnLocalPause = document.querySelector(
-  "#btn-pause-local"
-) as HTMLButtonElement;
 const constraints: Constraints = {
   video: true,
   audio: false,
 };
-const video = document.querySelector("video#video-local") as HTMLVideoElement;
+
+export let stream: MediaStream;
+
 btnLocalPlay.addEventListener("click", async () => {
-  const stream = await navigator.mediaDevices.getUserMedia(constraints);
+  stream = await navigator.mediaDevices.getUserMedia(constraints);
   video.srcObject = stream;
   video.play();
-  
   if (!startCamera) startCamera = true;
-
-  interval = setInterval(() => {
-    ctx!.drawImage(video, 0, 0, 640, 480);
-    sendStreamData(canvas.toDataURL());
-  }, 250);
-
 });
 
 btnLocalPause.addEventListener("click", () => {
   video.pause();
   if (startCamera) startCamera = false;
 
-  clearInterval(interval);
-  sendStreamData("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNYRu8LA0MWpRLTDJCQEq3talVZsczYlQjCQ&s");
   const mediaStream = video.srcObject as MediaStream;
   if (mediaStream) {
     const tracks = mediaStream.getTracks();
     tracks.forEach((track) => track.stop());
     video.srcObject = null;
   }
+});
+
+btnConnectClient.addEventListener("click", () => {
+  const id = document.querySelector("#client-to-connect") as HTMLInputElement;
+  const peerId = id.value.trim();
+  if (peerId === "") return;
+  if (peerId === uuid) {
+    alert("No puedes llamarte a ti mismo");
+    return;
+  }
+  //No envia la llamada si no hay stream
+  const call = peer.call(peerId, stream);
+  video.srcObject = stream;
+
+  call.on("stream", (remoteStream: MediaStream) => {
+    console.log("recibiendo el video");
+    videoRemote.srcObject = remoteStream;
+    videoRemote.play();
+  });
 });

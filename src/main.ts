@@ -1,4 +1,5 @@
 import "./style.css";
+import "./peer-clients-control";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./socket-client";
