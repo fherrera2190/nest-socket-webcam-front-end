@@ -2,15 +2,16 @@ import Peer from "peerjs";
 import { v4 as uuidv4 } from "uuid";
 import { userId, videoRemote } from "./constants";
 import { stream } from "./buttons";
+import { envConfig } from "./config/app.config";
 
 export const uuid = uuidv4();
 userId.innerHTML = uuid;
 
 export const peer = new Peer(uuid, {
-  host: import.meta.env.VITE_API_URL,
+  host: envConfig.VITE_PEER_SERVER,
   port: 443,
   path: "/peerjs",
-  secure:true
+  secure: true,
 });
 
 peer.on("open", (id: string) => {
