@@ -7,9 +7,10 @@ export const uuid = uuidv4();
 userId.innerHTML = uuid;
 
 export const peer = new Peer(uuid, {
-  host: "localhost",
-  port: 50000,
+  host: import.meta.env.VITE_API_URL,
+  port: 443,
   path: "/peerjs",
+  secure:true
 });
 
 peer.on("open", (id: string) => {

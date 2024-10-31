@@ -1,4 +1,7 @@
-.env
+# Ignorar todos los archivos .env
+*.env
+.env.development
+.env.production
 
 # Logs
 logs
