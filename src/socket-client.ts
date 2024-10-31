@@ -5,7 +5,7 @@ let manager: Manager;
 let socket: Socket;
 
 document.addEventListener("DOMContentLoaded", () => {
-  manager = new Manager(envConfig.API_URL);
+  manager = new Manager(`https://${envConfig.VITE_PEER_SERVER}`);
   socket = manager.socket("/webcam-ws");
   socket.on("connect", () => {
     document.querySelector("#server-status")!.innerHTML = "connected";

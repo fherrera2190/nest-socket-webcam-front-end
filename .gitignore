@@ -2,7 +2,7 @@
 *.env
 .env.development
 .env.production
-
+/dist
 # Logs
 logs
 *.log
