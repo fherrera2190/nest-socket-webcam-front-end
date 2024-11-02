@@ -2,13 +2,10 @@ import "./style.css";
 import "./peer-clients-control";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "./socket-client";
 import "./buttons";
+import { listElement } from "./constants";
 
 function updateCameraList(cameras: MediaDeviceInfo[] = []) {
-  const listElement = document.querySelector(
-    "select#select-devices"
-  ) as HTMLSelectElement;
   listElement.innerHTML = "";
 
   cameras
@@ -26,8 +23,9 @@ function updateCameraList(cameras: MediaDeviceInfo[] = []) {
 // Fetch an array of devices of a certain type
 async function getConnectedDevices(type: string): Promise<MediaDeviceInfo[]> {
   const devices = await navigator.mediaDevices.enumerateDevices();
-  const devicesVideoInpunt = devices.filter((device) => device.kind === type);
-  return devicesVideoInpunt;
+
+  const devicesQuery = devices.filter((device) => device.kind === type);
+  return devicesQuery;
 }
 // Get the initial set of cameras connected
 

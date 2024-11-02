@@ -20,4 +20,12 @@ export const btnConnectClient = document.querySelector(
   "#btn-connect-client"
 ) as HTMLButtonElement;
 
+export const listElement = document.querySelector(
+  "select#select-devices"
+) as HTMLSelectElement;
+
 export const userId = document.querySelector("#user-id") as HTMLSpanElement;
+
+export const copyBtn = document.querySelector(
+  "#copyButton"
+) as HTMLButtonElement;

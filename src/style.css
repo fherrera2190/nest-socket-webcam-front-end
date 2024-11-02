@@ -5,3 +5,6 @@
   box-sizing: border-box;
 }
 
+.row{
+  --bs-gutter-x: 0 !important;
+}

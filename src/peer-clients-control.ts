@@ -7,21 +7,27 @@ import { envConfig } from "./config/app.config";
 export const uuid = uuidv4();
 userId.innerHTML = uuid;
 
-export const peer = new Peer(uuid, {
-  host: envConfig.VITE_PEER_SERVER,
-  port: 443,
-  path: "/peerjs",
-  secure: true,
+export let peer = new Peer(uuid, {
+  host: envConfig.VITE_SERVER,
+  port: envConfig.VITE_PORT,
+  path: envConfig.VITE_PEER_PATH,
+  secure: envConfig.VITE_PEER_SECURE,
 });
 
-peer.on("open", (id: string) => {
-  console.log("My peer ID is: " + id);
-});
+document.addEventListener("DOMContentLoaded", () => {
+  peer.on("open", (id: string) => {
+    console.log("My peer ID is: " + id);
+  });
 
-peer.on("call", (call) => {
-  call.answer(stream);
-  call.on("stream", (remoteStream: MediaStream) => {
-    console.log("Receiving remote stream");
-    videoRemote.srcObject = remoteStream; // Mostrar el video remoto
+  peer.on("call", (call) => {
+    call.answer(stream);
+    call.on("stream", (remoteStream: MediaStream) => {
+      console.log("Receiving remote stream");
+      videoRemote.srcObject = remoteStream; // Mostrar el video remoto
+    });
+  });
+
+  peer.on("close", () => {
+    console.log("Deje de recibir video");
   });
 });

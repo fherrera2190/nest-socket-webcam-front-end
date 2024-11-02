@@ -7,80 +7,66 @@
     <title>Vite + TS</title>
   </head>
   <body data-bs-theme="dark">
-    <header class="d-flex justify-content-evenly bg-primary p-3 mb-3">
-      <h1>MY ZOOM</h1>
-      <h2>your id: <span id="user-id"></span></h2>
-    </header>
-    <div id="app" class="container">
-      <div class="d-flex justify-content-evenly align-items-center">
-        <h1>Acceder a la Cámara</h1>
-        <button id="btn-start-meeting" class="btn btn-danger">
-          Start meeting
+    <header
+      class="d-flex justify-content-evenly align-items-center bg-primary p-3"
+    >
+      <h1>Video call</h1>
+      <h4>
+        Your id: <span id="user-id"></span>
+        <button id="copyButton" class="btn btn-outline-light">
+          <i class="bi bi-clipboard"></i>
         </button>
+      </h4>
+    </header>
+
+    <main class="container">
+      <div class="d-flex justify-content-evenly align-items-center my-5">
+        <h1>Acceder a la Cámara</h1>
+
         <p>Server status: <span id="server-status">disconnected</span></p>
       </div>
-      <div>
+      <div class="d-flex justify-content-center align-items-center gap-5 my-5">
         <input
-          class="form-control my-3"
+          class="form-control w-50"
           id="client-to-connect"
           type="text"
           placeholder="Client to connect id"
         />
-        <button id="btn-connect-client" class="btn btn-success">
-          Call client
-        </button>
-      </div>
-      <div class="w-100 d-flex flex-column my-4">
-        <div class="w-100 d-flex justify-content-center">
-          <video
-            id="video-local"
-            class="border border-2"
-            width="640"
-            height="480"
-            controls
-          ></video>
-          <canvas id="canvas-local" class="d-none"></canvas>
-        </div>
-
-        <div class="d-flex align-items-center justify-content-evenly">
-          <div class="video-options my-3">
-            <select name="" id="select-devices" class="custom-select">
-              <option value="">Select camera</option>
-            </select>
-          </div>
-          <div class="controls d-flex justify-content-end gap-3">
-            <button
-              id="btn-play-local"
-              class="btn btn-primary play"
-              title="Play"
-            >
-              <i class="bi bi-play-circle"></i>
-            </button>
-            <button
-              id="btn-pause-local"
-              class="btn btn-warning pause"
-              title="Pause"
-            >
-              <i class="bi bi-pause-circle"></i>
-            </button>
-          </div>
+        <div>
+          <button id="btn-connect-client" class="btn btn-success">
+            <i class="bi bi-telephone"></i>
+          </button>
         </div>
       </div>
-
-      <div
-        class="container d-flex justify-content-center flex-wrap gap-4"
-        id="container-remote"
-      >
-        <video
-          id="video-remote"
-          class="border border-2"
-          autoplay
-          width="320"
-          height="240"
-          controls
-        ></video>
+      <div class="row d-flex justify-content-between">
+        <div class="col-6 border border-2">
+          <video id="video-local" class="w-100" height="540" autoplay></video>
+        </div>
+        <div class="col-6 border border-2">
+          <video id="video-remote" class="w-100" autoplay></video>
+        </div>
       </div>
-    </div>
+    </main>
+    <footer class="container">
+      <div class="d-flex justify-content-center gap-5 mt-5">
+        <select
+          name=""
+          id="select-devices"
+          class="form-control custom-select w-auto"
+        >
+          <option value="">Select camera</option>
+        </select>
+        <div class="d-flex justify-content-end gap-3">
+          <button id="btn-play-local" class="btn btn-primary play" title="Play">
+            <i class="bi bi-camera-video"></i>
+          </button>
+          <button><i class="bi bi-mic"></i></button>
+          <button class="btn btn-secondary">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+        </div>
+      </div>
+    </footer>
     <script
       type="module"
       src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"

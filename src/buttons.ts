@@ -1,38 +1,46 @@
 import {
   btnConnectClient,
-  btnLocalPause,
   btnLocalPlay,
+  copyBtn,
+  userId,
   video,
   videoRemote,
 } from "./constants";
 import { Constraints } from "./interfaces/video-constraints.interfaces";
 import { peer, uuid } from "./peer-clients-control";
 
-let startCamera: boolean = false;
+let statusCamera: boolean = false;
+let statusAudio: boolean = false;
+let call = null;
+let mediaStream;
+let videoTrack;
+let audioTrack;
+let conn;
+export let stream: MediaStream
 
+// let call: typeof Peer.Call() = null;
 const constraints: Constraints = {
   video: true,
-  audio: false,
+  audio: true,
 };
 
-export let stream: MediaStream;
+btnLocalPlay.addEventListener("click", async function () {
+  if (!statusCamera) {
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
 
-btnLocalPlay.addEventListener("click", async () => {
-  stream = await navigator.mediaDevices.getUserMedia(constraints);
-  video.srcObject = stream;
-  video.play();
-  if (!startCamera) startCamera = true;
-});
-
-btnLocalPause.addEventListener("click", () => {
-  video.pause();
-  if (startCamera) startCamera = false;
-
-  const mediaStream = video.srcObject as MediaStream;
-  if (mediaStream) {
-    const tracks = mediaStream.getTracks();
-    tracks.forEach((track) => track.stop());
-    video.srcObject = null;
+    statusCamera = true;
+    video.srcObject = stream;
+    video.play();
+    btnLocalPlay.innerHTML = `<i class="bi bi-camera-video-off"></i>`;
+  } else {
+    video.pause();
+    statusCamera = false;
+    btnLocalPlay.innerHTML = `<i class="bi bi-camera-video"></i>`;
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach((track) => track.stop());
+      video.srcObject = null;
+    }
   }
 });
 
@@ -44,13 +52,26 @@ btnConnectClient.addEventListener("click", () => {
     alert("No puedes llamarte a ti mismo");
     return;
   }
-  //No envia la llamada si no hay stream
-  const call = peer.call(peerId, stream);
-  video.srcObject = stream;
+
+  call = peer.call(peerId, stream);
 
   call.on("stream", (remoteStream: MediaStream) => {
     console.log("recibiendo el video");
     videoRemote.srcObject = remoteStream;
     videoRemote.play();
   });
+});
+
+//Copiar userId al portapapeles
+copyBtn.addEventListener("click", () => {
+  const text = userId.innerText;
+
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      return;
+    })
+    .catch((err) => {
+      console.error("Error al copiar el texto: ", err);
+    });
 });
