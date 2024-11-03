@@ -16,7 +16,7 @@ export let peer = new Peer(uuid, {
 
 document.addEventListener("DOMContentLoaded", () => {
   peer.on("open", (id: string) => {
-    //console.log("My peer ID is: " + id);
+    console.log("My peer ID is: " + id);
   });
 
   peer.on("call", (call) => {
