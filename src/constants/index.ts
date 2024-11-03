@@ -12,10 +12,6 @@ export const btnMic = document.querySelector(
   "#btn-mic"
 ) as HTMLButtonElement;
 
-export const btnStartMeeting = document.querySelector(
-  "#btn-start-meeting"
-) as HTMLButtonElement;
-
 export const btnConnectClient = document.querySelector(
   "#btn-connect-client"
 ) as HTMLButtonElement;
