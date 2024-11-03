@@ -104,7 +104,7 @@ const getStream = async () => {
   try {
     stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
-      video: false,
+      video: true,
     });
     videoTrack = stream.getVideoTracks()[0];
     audioTrack = stream.getAudioTracks()[0];
