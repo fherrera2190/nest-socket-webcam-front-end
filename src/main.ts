@@ -11,6 +11,8 @@ import {
   video,
   userId,
   videoRemote,
+  testCconnection,
+  serverStatus,
 } from "./constants";
 import Peer from "peerjs";
 import { v4 as uuidv4 } from "uuid";
@@ -24,19 +26,42 @@ let peer = new Peer(uuid, {
   path: envConfig.VITE_PEER_PATH,
   secure: envConfig.VITE_PEER_SECURE,
 });
-
 let statusCamera: boolean = true;
 let statusAudio: boolean = true;
 let videoTrack: any = null;
 let audioTrack: any = null;
 let stream: MediaStream;
 
-document.addEventListener("DOMContentLoaded", async () => {
-  await getStream();
+function retryConnection(peer: Peer) {
+  const intervalId = setInterval(() => {
+    if (peer.disconnected) {
+      console.log("Intentando reconectar...");
+      peer.reconnect();
+    } else {
+      console.log("Reconectado al servidor de PeerJS");
+      clearInterval(intervalId);
+    }
+  }, 5000); // Intentar reconectar cada 5 segundos
+}
 
-  peer.on("open", (id: string) => {
-    console.log("My peer ID is: " + id);
-  });
+peer.on("open", (id: string) => {
+  console.log("My peer ID is: " + id);
+  testCconnection.classList.remove("text-danger");
+  testCconnection.classList.add("text-success");
+  serverStatus.innerHTML = "connected";
+});
+
+peer.on("disconnected", () => {
+  testCconnection.classList.remove("text-success");
+  testCconnection.classList.add("text-danger");
+  serverStatus.innerHTML = "disconnected";
+  retryConnection(peer);
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  // retryConnection(peer);
+
+  await getStream();
 
   peer.on("call", (call) => {
     call.answer(stream);

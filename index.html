@@ -35,10 +35,12 @@
           </div>
         </div>
 
-        <div class="col-6 d-flex justify-content-end align-items-center">
+        <div class="col-6 d-flex gap-3 justify-content-end align-items-center">
           <p>Server status: <span id="server-status">disconnected</span></p>
+          <div id="test-connection" class="spinner-grow text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
-        
       </div>
       <div class="row d-flex justify-content-between">
         <div class="col-6 border border-2">

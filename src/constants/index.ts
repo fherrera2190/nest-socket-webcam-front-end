@@ -8,9 +8,7 @@ export const videoRemote = document.querySelector(
 export const btnLocalPlay = document.querySelector(
   "#btn-play-local"
 ) as HTMLButtonElement;
-export const btnMic = document.querySelector(
-  "#btn-mic"
-) as HTMLButtonElement;
+export const btnMic = document.querySelector("#btn-mic") as HTMLButtonElement;
 
 export const btnConnectClient = document.querySelector(
   "#btn-connect-client"
@@ -25,3 +23,11 @@ export const userId = document.querySelector("#user-id") as HTMLSpanElement;
 export const copyBtn = document.querySelector(
   "#copyButton"
 ) as HTMLButtonElement;
+
+export const testCconnection = document.querySelector(
+  "#test-connection"
+) as HTMLDivElement;
+
+export const serverStatus = document.querySelector(
+  "#server-status"
+) as HTMLSpanElement;
