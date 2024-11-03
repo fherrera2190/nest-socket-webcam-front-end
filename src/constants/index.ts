@@ -8,8 +8,8 @@ export const videoRemote = document.querySelector(
 export const btnLocalPlay = document.querySelector(
   "#btn-play-local"
 ) as HTMLButtonElement;
-export const btnLocalPause = document.querySelector(
-  "#btn-pause-local"
+export const btnMic = document.querySelector(
+  "#btn-mic"
 ) as HTMLButtonElement;
 
 export const btnStartMeeting = document.querySelector(

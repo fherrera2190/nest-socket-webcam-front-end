@@ -5,6 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./buttons";
 import { listElement } from "./constants";
 
+
 function updateCameraList(cameras: MediaDeviceInfo[] = []) {
   listElement.innerHTML = "";
 

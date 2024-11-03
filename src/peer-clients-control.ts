@@ -16,13 +16,13 @@ export let peer = new Peer(uuid, {
 
 document.addEventListener("DOMContentLoaded", () => {
   peer.on("open", (id: string) => {
-    console.log("My peer ID is: " + id);
+    //console.log("My peer ID is: " + id);
   });
 
   peer.on("call", (call) => {
     call.answer(stream);
     call.on("stream", (remoteStream: MediaStream) => {
-      console.log("Receiving remote stream");
+      console.log(">>>>>>>>>>>>>", remoteStream);
       videoRemote.srcObject = remoteStream; // Mostrar el video remoto
     });
   });

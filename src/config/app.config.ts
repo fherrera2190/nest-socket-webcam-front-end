@@ -9,4 +9,3 @@ export const envConfig =
         VITE_PORT: import.meta.env.VITE_PORT,
       }
     : {};
-console.log(envConfig);
